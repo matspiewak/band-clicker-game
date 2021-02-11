@@ -4,6 +4,7 @@
     border-style: solid;
     width: 50%;
     height: 50%;
+    background-image: url("./media/fame.gif");
 }
 .money-div{
     border: 10;
@@ -11,4 +12,5 @@
     border-style: solid;
     width: 50%;
     height: 50%;
+    background-image: url("./media/money.gif");
 }
