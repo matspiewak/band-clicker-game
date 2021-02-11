@@ -1,0 +1,14 @@
+.fame-div{
+    border: 10;
+    border-color:purple;
+    border-style: solid;
+    width: 50%;
+    height: 50%;
+}
+.money-div{
+    border: 10;
+    border-color: green;
+    border-style: solid;
+    width: 50%;
+    height: 50%;
+}
