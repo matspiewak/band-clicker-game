@@ -11,21 +11,26 @@ readCookie = (name) => {
 
 if (readCookie("fame") === null) {
   document.cookie = "fame=0";
+  document.cookie = "famePerClick="+1;
 }
 if (readCookie("money") === null) {
   document.cookie = "money=0";
+  document.cookie = "moneyPerClick="+1;
 }
 
 var money = readCookie("money");
+var moneyPerClick = readCookie("moneyPerClick");
 var fame = readCookie("fame");
+var famePerClick = readCookie("famePerClick");
+
 
 addFame = () => {
-  fame++;
+  fame=parseInt(fame)+parseInt(famePerClick);
   console.log("fame: " + fame);
 };
 
 addMoney = () => {
-  money++;
+  money+=moneyPerClick;
   console.log("money: " + money);
 };
 

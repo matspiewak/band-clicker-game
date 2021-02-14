@@ -1,14 +1,20 @@
 <html>
-    <head>
-        <title>Band Clicker</title>
-        <script src="./script.js"></script>
-        <link rel="stylesheet" type="text/css" href="./style.css" />
-    </head>
-    <body >
-        <div id="mainStage" class="fame-div" OnClick="increaseValue()">
-            
-        </div>
-        <button name="add" OnClick="submit()">Submit</button>
-        <button name="add" OnClick="changeStage()">Stage</button>
-    </body>
+  <head>
+    <title>Band Clicker</title>
+    <script src="./script.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+  </head>
+  <body>
+    <div id="wrapper" class="wrapper">
+      <div id="leftPanel" class="shop-div">
+          <div id="shopInfo" class="info">
+              <h1>Shop</h1>
+          </div>
+      </div>
+      <div id="mainStage" class="fame-div" OnClick="increaseValue()"></div>
+      <div id="rightPanel" class="status-div"></div>
+    </div>
+    <button name="add" OnClick="submit()">Submit</button>
+    <button name="add" OnClick="changeStage()">Stage</button>
+  </body>
 </html>
