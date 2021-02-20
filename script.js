@@ -1,29 +1,36 @@
-
-var hash = objectHash.sha1({foo: 'bar'});
-console.log(hash);
-
-console.log(hash("test"))
-
 class GameStatus{
-  fameShop = {};  //! \/
-  moneyShop = {}; //! Dodać pobieranie z local storage
+  savedState = { //saveModel
+    fame: localStorage.getItem('fame'),
+    money: localStorage.getItem('money'),
+    fameShop: {
+      fans: localStorage.getItem('fans'),
+      groupies: localStorage.getItem('groupies'),
+      managers: localStorage.getItem('managers'),
+    },
+    moneyShop: {
+      djSetSwitches: localStorage.getItem('djSetSwitches'),
+      vinyl: localStorage.getItem('vinyl'),
+      silverVinyl: localStorage.getItem('silverVinyl'),
+      goldVinyl: localStorage.getItem('goldVinyl')
+    },
+    totalClicks: localStorage.getItem('totalClicks'),
+    timePlayed: localStorage.getItem('timePlayed')
+  };
 
   newGame = () => {
-    document.cookie = "fame=0";
-    document.cookie = "money=0";
-
-    this.fameShop = {
-      fans: 0,
-      groupies: 0,
-      managers: 0,
-    }
-    this.moneyShop = {
-      djSetSwitches: 0,
-      vinyl: 0,
-      silverVinyl: 0,
-      goldVinyl: 0
-    }
-    console.log(fameShop.fans);
+    Object.keys(this.savedState).forEach(v => localStorage.setItem(v,0)) //? generate empty, but nested object
+    console.log(this.savedState.fameShop.fans);
+    // this.fameShop = {
+    //   fans: localStorage.setItem('fans',1),
+    //   groupies: localStorage.setItem('groupies',0),
+    //   managers: localStorage.setItem('managers',0),
+    // }
+    // this.moneyShop = {
+    //   djSetSwitches: localStorage.setItem('djSetSwitches',0),
+    //   vinyl: localStorage.setItem('vinyl',0),
+    //   silverVinyl: localStorage.setItem('silverVinyl',0),
+    //   goldVinyl: localStorage.setItem('goldVinyl',0)
+    // }
   }
 }
 class Main{
@@ -41,8 +48,8 @@ class Main{
     return null;
   };
   addFame = () => {
-    fame=parseInt(fame)+this.gameStatus.fameShop.fans;
-    console.log("fame: " +this.gameStatus.fameShop.fans);
+    fame=parseInt(fame)+parseInt(this.gameStatus.fameShop.fans);
+    console.log("fame: " +fame);
   };
   addMoney = () => {
     money=parseInt(moneyPerClick)+moneyShop;
@@ -53,7 +60,7 @@ const game = new GameStatus();
 const main = new Main();
 
 if (main.readCookie("fame") === null && main.readCookie("money") === null) {
-  newGame();
+  game.newGame();
 }
 
 var money = main.readCookie("money");
@@ -85,5 +92,6 @@ changeStage = () => {
 //   document.cookie = "fame=" + fame;
 //   document.cookie = "money=" + money;
 // };
+
 
 
