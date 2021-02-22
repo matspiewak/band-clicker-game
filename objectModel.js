@@ -1,6 +1,1 @@
-export class Model{
 
-    savedState = { 
-
-      };
-}

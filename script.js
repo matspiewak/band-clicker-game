@@ -1,85 +1,61 @@
 class GameStatus {
-  fameShop = { //! stworzyć pusty model, setItem JSON.stringfy(obiekt), var obiekt = getItem(obiekt)
-    fans: localStorage.getItem("fameshop.fans"),
-    groupies: localStorage.getItem("groupies"),
-    managers: localStorage.getItem("managers"),
-  };
-  moneyShop = {
-    djSetSwitches: localStorage.getItem("djSetSwitches"),
-    vinyl: localStorage.getItem("vinyl"),
-    silverVinyl: localStorage.getItem("silverVinyl"),
-    goldVinyl: localStorage.getItem("goldVinyl"),
-  };
-  gameDetails = {
-    fame: localStorage.getItem('fame'),
-    money: localStorage.getItem('money'),
-    totalClicks: localStorage.getItem('totalClicks'),
-    timePlayed: localStorage.getItem('timePlayed')
-  }
   savedState = {
-    fameshop: this.fameShop,
-    moneyShop: this.moneyShop,
-    gameDetails: this.gameDetails,
+    fame: 0,
+    fameShop: {
+      fans: 1,
+      groupies: 0,
+      managers: 0,
+    },
+    money: 0,
+    moneyShop: {
+      djSetSwitches: 1,
+      vinyl: 0,
+      silverVinyl: 0,
+      goldVinyl: 0,
+    },
+    totalClicks: 0,
+    timePlayed: 0,
   };
 
-  saveObject = () => {
-    localStorage.setItem("SavedState", JSON.stringify(this.savedState));
-  }
+  saveProgress = (obj) => {
+    localStorage.setItem("SavedState", JSON.stringify(obj));
+  };
 
   newGame = () => {
-    Object.keys(this.fameShop).forEach((v) => (this.fameShop[v] = 0));
-    Object.keys(this.moneyShop).forEach((v) => (this.moneyShop[v] = 0));
-    Object.keys(this.gameDetails).forEach((v) => (this.gameDetails[v] = 0));
-    this.fameShop.fans = 1; 
-    this.moneyShop.djSetSwitches = 1;
     console.log(this.savedState);
-    this.saveObject();
+    this.saveProgress(this.savedState);
   };
 }
 class Main {
   constructor() {
     this.gameStatus = new GameStatus();
+    this.gameValuesRaw = localStorage.getItem("SavedState");
+    this.gameValues = JSON.parse(this.gameValuesRaw);
   }
-  readCookie = (name) => {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  };
   addFame = () => {
-    fame = parseInt(this.gameStatus.fameShop.fans);
-    console.log("fame: " + fame);
+    this.gameValues.fame += this.gameValues.fameShop.fans;
+    console.log("fame: " + this.gameValues.fame);
   };
   addMoney = () => {
-    money = parseInt(moneyPerClick) + moneyShop;
-    console.log("money: " + money);
+    this.gameValues.money += this.gameValues.moneyShop.djSetSwitches;
+    console.log("money: " + this.gameValues.money);
   };
 }
-
 const game = new GameStatus();
 const main = new Main();
 
 if (localStorage.getItem("SavedState") === null) {
   game.newGame();
-  console.log("Started new game!");
+  console.log("new game!");
 }
 
-var money = main.readCookie("money");
-var fame = main.readCookie("fame");
-
-test = () => {
-  main.addFame();
+increaseValue = () => {
+  if (document.getElementById("mainStage").classList.contains("money-div"))
+    main.addMoney();
+  else main.addFame();
 };
 
-save = () => {
-  game.saveObject();
-}
-
-
+window.setInterval(increaseValue,1000);
 
 changeStage = () => {
   if (document.getElementById("mainStage").classList.contains("fame-div")) {
@@ -89,12 +65,7 @@ changeStage = () => {
   }
 };
 
-// increaseValue = () => {
-//   if ((document.getElementById("mainStage").classList.contains("money-div"))) addMoney();
-//   else addFame();
-// };
-
-// submit = () => {
-//   document.cookie = "fame=" + fame;
-//   document.cookie = "money=" + money;
-// };
+save = () => {
+  game.saveProgress(main.gameValues);
+  console.log(main.gameValues);
+};
