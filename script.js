@@ -1,17 +1,18 @@
-class GameStatus { //? test
+class GameStatus {
+  //? test
   savedState = {
     fame: 0,
     fameShop: {
       fans: 1,
-      groupies: 0,
-      managers: 0,
+      groupies: 1,
+      managers: 1,
     },
     money: 0,
     moneyShop: {
       djSetSwitches: 1,
-      vinyl: 0,
-      silverVinyl: 0,
-      goldVinyl: 0,
+      vinyl: 1,
+      silverVinyl: 1,
+      goldVinyl: 1,
     },
     totalClicks: 0,
     timePlayed: 0,
@@ -32,14 +33,27 @@ class Main {
     this.gameValuesRaw = localStorage.getItem("SavedState");
     this.gameValues = JSON.parse(this.gameValuesRaw);
   }
-  addFame = () => {
-    this.gameValues.fame += this.gameValues.fameShop.fans;
-    console.log("fame: " + this.gameValues.fame);
+  addValueOnClick = () => {
+    if (!document.getElementById("mainStage").classList.contains("money-div")) {
+      this.gameValues.fame += this.gameValues.fameShop.fans;
+      console.log("fame: " + this.gameValues.fame);
+    } else {
+      this.gameValues.money += this.gameValues.moneyShop.djSetSwitches;
+      console.log("money: " + this.gameValues.money);
+    }
   };
-  addMoney = () => {
-    this.gameValues.money += this.gameValues.moneyShop.djSetSwitches;
-    console.log("money: " + this.gameValues.money);
-  };
+  addValuePerSecond = () => {
+    if (!document.getElementById("mainStage").classList.contains("money-div")) {
+      this.gameValues.fame += (3*this.gameValues.fameShop.groupies
+        + 6*this.gameValues.fameShop.managers);
+      console.log("fame: " + this.gameValues.fame);
+    } else {
+      this.gameValues.money += (3*this.gameValues.moneyShop.vinyl
+        +6*this.gameValues.moneyShop.silverVinyl
+        +9*this.gameValues.moneyShop.goldVinyl);
+      console.log("money: " + this.gameValues.money);
+    }
+  }
 }
 const game = new GameStatus();
 const main = new Main();
@@ -49,13 +63,19 @@ if (localStorage.getItem("SavedState") === null) {
   console.log("new game!");
 }
 
-increaseValue = () => {
-  if (document.getElementById("mainStage").classList.contains("money-div"))
-    main.addMoney();
-  else main.addFame();
-};
+window.setInterval(
+  (valuesOverTime = () => {
+    main.gameValues.timePlayed++;
+    main.addValuePerSecond();
+  }),
+  1000
+);
 
-window.setInterval(increaseValue,1000);
+//window.setInterval(increaseValue,1000);
+
+increaseValue = () => {
+  main.addValueOnClick();
+};
 
 changeStage = () => {
   if (document.getElementById("mainStage").classList.contains("fame-div")) {
