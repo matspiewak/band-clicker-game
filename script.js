@@ -1,4 +1,4 @@
-class GameStatus {
+class GameStatus { //? test
   savedState = {
     fame: 0,
     fameShop: {
