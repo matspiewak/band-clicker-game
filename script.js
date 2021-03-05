@@ -30,8 +30,7 @@ class GameStatus {
 class Main {
   constructor() {
     this.gameStatus = new GameStatus();
-    this.gameValuesRaw = localStorage.getItem("SavedState");
-    this.gameValues = JSON.parse(this.gameValuesRaw);
+    this.gameValues = JSON.parse(localStorage.getItem("SavedState"));
   }
   addValueOnClick = () => {
     if (!document.getElementById("mainStage").classList.contains("money-div")) {
